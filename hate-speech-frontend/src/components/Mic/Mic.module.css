@@ -1,0 +1,29 @@
+.mic {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mic_img {
+  width: 15rem;
+  transition: all 0.5s;
+}
+
+.bnw {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+.clicked {
+  transform: scale(1.1);
+}
+
+.mic_text {
+  color: #142053;
+  font-family: cursive;
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 400;
+}

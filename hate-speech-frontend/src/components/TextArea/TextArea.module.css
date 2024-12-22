@@ -1,0 +1,26 @@
+.text_box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height: 100%; */
+  align-self: stretch;
+}
+
+.text {
+  /* width: 100%; */
+  align-self: stretch;
+}
+
+textarea {
+  width: 100%;
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 0;
+  font-size: 1.2rem;
+  transition: background-color 300ms ease-in-out, transform 300ms ease-in-out;
+}
+textarea:focus {
+  outline: 0;
+  background-color: #f1eedc;
+  transform: scale(1.1);
+}

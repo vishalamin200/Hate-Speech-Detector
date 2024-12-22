@@ -1,0 +1,33 @@
+.modal {
+  width: 40%;
+  height: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2rem;
+}
+
+.modal_text {
+  color: #fff;
+  font-family: "Joti One";
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.red {
+  background: #eea5a6;
+}
+
+.green {
+  background: #1f8036;
+}
+
+.purple {
+  background: #b784b7;
+}
+
+.grey {
+  background: #353535;
+}

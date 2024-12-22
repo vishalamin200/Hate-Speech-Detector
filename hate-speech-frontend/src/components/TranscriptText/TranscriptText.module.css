@@ -1,0 +1,17 @@
+.trans_text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1.5rem 2rem;
+  background: #e493b3;
+  border-radius: 1rem;
+}
+
+.a_text {
+  color: #fff;
+  font-family: cursive;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+}
