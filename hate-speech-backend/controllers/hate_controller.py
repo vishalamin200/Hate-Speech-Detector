@@ -2,16 +2,49 @@ from flask import Flask, request, jsonify
 import re
 import string
 import joblib
-# import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 from googletrans import Translator
+import nltk
 
 app = Flask(__name__)
 
 class HateController:
-    # stopword = set(nltk.corpus.stopwords.words('english'))  # Define stopwords set
+
+    stopword = set(stopwords.words('english'))
+    lemmatizer = WordNetLemmatizer()
+    
+    # Custom contraction map
+    CONTRACTIONS = {
+        "don't": "do not",
+        "can't": "cannot",
+        "won't": "will not",
+        "i'm": "i am",
+        "you're": "you are",
+        "they're": "they are",
+        "we're": "we are",
+        "it's": "it is",
+        "isn't": "is not",
+        "aren't": "are not",
+        "wasn't": "was not",
+        "weren't": "were not",
+        "hasn't": "has not",
+        "haven't": "have not",
+        "hadn't": "had not",
+        "doesn't": "does not",
+        "didn't": "did not",
+        "shouldn't": "should not",
+        "wouldn't": "would not",
+        "couldn't": "could not",
+        "mightn't": "might not",
+        "mustn't": "must not",
+    }
 
     def __init__(self):
-        # nltk.download('stopwords')  # Download NLTK stopwords
+        # nltk.download('punkt')
+        # nltk.download('stopwords')
+        # nltk.download('wordnet')
         pass
 
     @staticmethod
@@ -46,18 +79,46 @@ class HateController:
         # Return the response with status code 200 (OK)
         return jsonify(response), 200
 
-    # @staticmethod
-    # def clean(text):
-    #     text = str(text).lower()
-    #     text = re.sub('\[.*?\]', '', text)
-    #     text = re.sub('https?://\S+|www\.\S+', '', text)
-    #     text = re.sub('<.*?>+', '', text)
-    #     text = re.sub('[%s]' % re.escape(string.punctuation), '', text)
-    #     text = re.sub('\n', '', text)
-    #     text = re.sub('\w*\d\w*', '', text)
-    #     text = [word for word in text.split(' ') if word not in HateController.stopword]
-    #     text = " ".join(text)
-    #     return text
+
+
+
+    @staticmethod
+    def clean(text):
+        # Lowercase the text
+        text = text.lower()
+    
+        # Expand contractions
+        for contraction, full_form in HateController.CONTRACTIONS.items():
+            text = re.sub(rf"\b{contraction}\b", full_form, text)
+    
+        # Remove URLs
+        text = re.sub(r"https?://\S+|www\.\S+", "", text)
+    
+        # Remove HTML tags
+        text = re.sub(r"<.*?>", "", text)
+    
+        # Remove emojis and non-ASCII characters
+        text = re.sub(r"[^\x00-\x7f]", "", text)
+    
+        # Remove punctuation
+        text = text.translate(str.maketrans("", "", string.punctuation))
+    
+        # Remove numbers
+        text = re.sub(r"\b\d+\b", "", text)
+    
+        # Remove extra whitespace
+        text = re.sub(r"\s+", " ", text).strip()
+    
+        # Tokenization
+        words = word_tokenize(text)
+    
+        # Remove stopwords and apply lemmatization
+        words = [HateController.lemmatizer.lemmatize(word) for word in words if word not in HateController.stopword]
+    
+        # Join words back into a single string
+        text = " ".join(words)
+    
+        return text
 
 
     @staticmethod
@@ -70,21 +131,18 @@ class HateController:
             model = joblib.load("models/Hate_model.pkl")  # Load your trained model from file  
 
         except (FileNotFoundError, joblib.JoblibError) as e:
-
             # Handle file not found or deserialization errors
             print("Error loading model:", e)
             return "Model loading error"
 
-        # Preprocess the input
-        # input_string = HateController.clean(initial_state)
+        # Clean the input text
+        cleaned_text = HateController.clean(initial_state)
 
-        print(initial_state)
-
-        # Transform the input using the loaded CountVectorizer
-        input_data = cv.transform([initial_state])
+        # Transform the cleaned text using the loaded CountVectorizer
+        input_data = cv.transform([cleaned_text])
 
         # Make predictions
-        prediction = model.predict(input_data)[0] #here lies error
+        prediction = model.predict(input_data)[0]  # Predict whether the text is hate speech
         
         return prediction
 
@@ -120,9 +178,6 @@ class HateController:
         except Exception as e:
             print("Error during translation:", e)
             return "Translation error"
-
-
-
 
 
 @app.route('/hate', methods=['POST'])
