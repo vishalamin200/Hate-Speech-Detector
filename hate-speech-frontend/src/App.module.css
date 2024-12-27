@@ -87,3 +87,9 @@
   font-style: normal;
   font-weight: 900;
 }
+
+@media (max-width:768px){
+  .submit{
+    margin-bottom:35px ;
+  }
+}
