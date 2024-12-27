@@ -5,8 +5,8 @@ import App from "./App";
 import "./index.css";
 
 // axios.defaults.baseURL = "https://hate-speech-backend.onrender.com";
-// axios.defaults.baseURL = "http://127.0.0.1:5000";
-axios.defaults.baseURL = "https://hatespeechserver.root.sx";
+axios.defaults.baseURL = "http://127.0.0.1:5000";
+// axios.defaults.baseURL = "https://hatespeechserver.root.sx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

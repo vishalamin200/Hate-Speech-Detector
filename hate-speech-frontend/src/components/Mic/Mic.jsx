@@ -14,6 +14,14 @@ const Mic = ({ listening, startListening, setLang }) => {
       value: "en-US",
       label: "English",
     },
+    {
+      value: "tl",
+      label: "Tagalog",
+    },
+    {
+      value: "id",
+      label: "Indonesian",
+    },
   ];
   return (
     <div className={styles.mic}>
