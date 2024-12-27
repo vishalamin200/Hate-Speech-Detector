@@ -51,9 +51,16 @@
   display: flex;
   width: 100%;
   justify-content: space-evenly;
-  /* gap: 8rem; */
+  gap: 0rem;
   align-items: center;
   /* gap: 10rem; */
+}
+
+@media (max-width: 768px) {
+  .input_div {
+    flex-direction: column;
+    gap: 2rem;
+  }
 }
 
 .submit {

@@ -107,7 +107,7 @@ function App() {
             setLang={setLang}
           />
           <p className={styles.choose}>OR</p>
-          <TextArea setText={setText} text={text} />
+          <TextArea  setText={setText} text={text} />
         </div>
         {audioText.length !== 0 && <TranscriptText audioText={audioText} />}
         <div className={styles.submit} onClick={() => getResult()}>

@@ -24,3 +24,9 @@ textarea:focus {
   background-color: #f1eedc;
   transform: scale(1.1);
 }
+
+@media (max-width:768px){
+  textarea{
+    height: 6rem;
+  }
+}
